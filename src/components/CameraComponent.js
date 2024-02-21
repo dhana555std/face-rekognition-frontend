@@ -116,13 +116,13 @@ const CameraComponent = () => {
           // Send the cropped image to the REST API
           const data = await sendToApi(croppedImage);
           console.log(data);  
-          if (data && Array.isArray(data) && data.length > 0 && data[0].Face) {
-            const name = data[0]?.Face.ExternalImageId.split('.')[0];
+          if (data && data.emp_id) {
+            const name = data.display_name;
             setNameOfDetectedPerson(name);
             speakText(`Hello, ${name}`);
-          } else if (data.statusCode !=undefined && data.statusCode == 401) {
+          } else if (data.message =="No matching faces found in the collection.") {
             setNameOfDetectedPerson("unAuthorized");
-            speakText(`Illegal access`);
+            speakText(`Welcome`);
           } else {
             // setNameOfDetectedPerson("unAuthorized");
             // speakText(`Welcome`);
